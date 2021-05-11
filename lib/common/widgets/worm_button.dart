@@ -48,27 +48,30 @@ class _WormButtonState extends State<WormButton> {
           color: _getColor(item),
           borderRadius: Dimens.borderRadius,
         ),
-        child: InkWell(
-          borderRadius: Dimens.borderRadius,
-          splashColor: colorWhite,
-          highlightColor: colorWhite,
-          focusColor: colorWhite,
-          onTap: () {
-            if (item == selectedItem && item.enabled) {
-              item.onTap();
-            } else {
-              widget.onIndexChanged?.call(widget.items.indexOf(item));
-              setState(() {
-                selectedItem = item;
-              });
-            }
-          },
-          child: Center(
-            child: Text(
-              item.title,
-              style: item == selectedItem
-                  ? TextStyles.action
-                  : TextStyles.disabledAction,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: Dimens.borderRadius,
+            splashColor: _getSplashColor(item),
+            focusColor: _getSplashColor(item),
+            highlightColor: _getSplashColor(item),
+            onTap: () {
+              if (item == selectedItem && item.enabled) {
+                item.onTap();
+              } else {
+                widget.onIndexChanged?.call(widget.items.indexOf(item));
+                setState(() {
+                  selectedItem = item;
+                });
+              }
+            },
+            child: Center(
+              child: Text(
+                item.title,
+                style: item == selectedItem
+                    ? TextStyles.action
+                    : TextStyles.disabledAction,
+              ),
             ),
           ),
         ),
@@ -85,6 +88,18 @@ class _WormButtonState extends State<WormButton> {
       }
     } else {
       return null;
+    }
+  }
+
+  Color? _getSplashColor(WormItem item) {
+    if (item == selectedItem) {
+      if (item.enabled) {
+        return colorDarkPink;
+      } else {
+        return colorDisabled;
+      }
+    } else {
+      return colorDarkPink;
     }
   }
 }

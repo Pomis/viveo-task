@@ -42,15 +42,9 @@ abstract class _LoginStore with Store {
     error.email = isEmail(value) ? null : 'Not a valid email';
   }
 
-  Future<bool> checkValidUsername(String value) async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    return value != 'admin';
-  }
-
   void dispose() {
-    for (final d in _disposers) {
-      d();
+    for (final disposer in _disposers) {
+      disposer();
     }
   }
 
