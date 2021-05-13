@@ -7,6 +7,7 @@ import 'package:viveo_task/common/themes/text_styles.dart';
 import 'package:viveo_task/common/widgets/base_screen.dart';
 import 'package:viveo_task/common/widgets/company_logo.dart';
 import 'package:viveo_task/common/widgets/indexed_container.dart';
+import 'package:viveo_task/common/widgets/scrollable_footer.dart';
 import 'package:viveo_task/common/widgets/worm_button.dart';
 import 'package:viveo_task/features/login/stores/login_store.dart';
 import 'package:viveo_task/features/login/widgets/login_form.dart';
@@ -25,25 +26,11 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: ScrollableFlex(
         children: [
           CompanyLogo(),
           const Spacer(),
-          Observer(
-            builder: (context) {
-              return Expanded(
-                child: IndexedContainer(
-                  selectedIndex: _startStore.tabIndex,
-                  children: [
-                    LoginForm(store: _loginStore),
-                    SignUpForm(),
-                  ],
-                ),
-              );
-            },
-          ),
+          _content(),
           WormButton(
             onIndexChanged: _startStore.changeTabIndex,
             items: [
@@ -62,12 +49,30 @@ class _StartPageState extends State<StartPage> {
             padding: Dimens.screenPadding,
             child: Center(
                 child: Text(
-              "Forgot password?",
-              style: TextStyles.action,
-            )),
-          )
+                  "Forgot password?",
+                  style: TextStyles.action,
+                )),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _content() {
+    return Column(
+      children: [
+        Observer(
+          builder: (context) {
+            return IndexedContainer(
+              selectedIndex: _startStore.tabIndex,
+              children: [
+                LoginForm(store: _loginStore),
+                SignUpForm(),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }

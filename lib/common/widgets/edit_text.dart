@@ -9,12 +9,14 @@ class EditText extends StatefulWidget {
   final String? errorText;
   final String? label;
   final String? hintText;
+  final bool isObscure;
 
   EditText({
     this.onChanged,
     this.errorText,
     this.label,
     this.hintText,
+    this.isObscure = false,
   });
 
   @override
