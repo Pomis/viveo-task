@@ -7,25 +7,21 @@ import 'package:viveo_task/common/themes/text_styles.dart';
 class WormButton extends StatefulWidget {
   final List<WormItem> items;
   final Function(int)? onIndexChanged;
+  final int selectedTab;
+  final inProgress;
 
-  WormButton({required this.items, this.onIndexChanged});
+  WormButton({
+    required this.items,
+    this.onIndexChanged,
+    this.selectedTab = 0,
+    this.inProgress = false,
+  });
 
   @override
   _WormButtonState createState() => _WormButtonState();
 }
 
 class _WormButtonState extends State<WormButton> {
-  WormItem? selectedItem;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.items.isNotEmpty) {
-      setState(() {
-        selectedItem = widget.items[0];
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,32 +51,54 @@ class _WormButtonState extends State<WormButton> {
             splashColor: _getSplashColor(item),
             focusColor: _getSplashColor(item),
             highlightColor: _getSplashColor(item),
-            onTap: () {
-              if (item == selectedItem && item.enabled) {
-                item.onTap();
-              } else {
-                widget.onIndexChanged?.call(widget.items.indexOf(item));
-                setState(() {
-                  selectedItem = item;
-                });
-              }
-            },
-            child: Center(
-              child: Text(
-                item.title,
-                style: item == selectedItem
-                    ? TextStyles.action
-                    : TextStyles.disabledAction,
-              ),
-            ),
+            onTap: widget.inProgress
+                ? null
+                : () {
+                    if (_isSelected(item) && item.enabled) {
+                      item.onTap();
+                    } else {
+                      widget.onIndexChanged?.call(widget.items.indexOf(item));
+                    }
+                  },
+            child: _isSelected(item)
+                ? _selectedContent(item)
+                : _unselectedContent(item),
           ),
         ),
       ),
     );
   }
 
+  Widget _selectedContent(WormItem item) {
+    if (widget.inProgress) {
+      return Center(
+        child: Container(
+          height: Dimens.iconSize,
+          width: Dimens.iconSize,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else {
+      return Center(
+        child: Text(
+          item.title,
+          style: TextStyles.action,
+        ),
+      );
+    }
+  }
+
+  Widget _unselectedContent(WormItem item) {
+    return Center(
+      child: Text(
+        item.title,
+        style: TextStyles.action,
+      ),
+    );
+  }
+
   Color? _getColor(WormItem item) {
-    if (item == selectedItem) {
+    if (_isSelected(item)) {
       if (item.enabled) {
         return colorPink;
       } else {
@@ -92,7 +110,7 @@ class _WormButtonState extends State<WormButton> {
   }
 
   Color? _getSplashColor(WormItem item) {
-    if (item == selectedItem) {
+    if (_isSelected(item)) {
       if (item.enabled) {
         return colorDarkPink;
       } else {
@@ -102,6 +120,9 @@ class _WormButtonState extends State<WormButton> {
       return colorDarkPink;
     }
   }
+
+  bool _isSelected(WormItem item) => widget.items[widget.selectedTab] == item;
+
 }
 
 class WormItem {

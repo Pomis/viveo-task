@@ -10,6 +10,7 @@ class EditText extends StatefulWidget {
   final String? label;
   final String? hintText;
   final bool isObscure;
+  final bool enabled;
 
   EditText({
     this.onChanged,
@@ -17,6 +18,7 @@ class EditText extends StatefulWidget {
     this.label,
     this.hintText,
     this.isObscure = false,
+    this.enabled = true,
   });
 
   @override
@@ -31,22 +33,21 @@ class _EditTextState extends State<EditText> {
       child: TextField(
         onChanged: widget.onChanged,
         style: TextStyles.input,
+        enabled: widget.enabled,
+        obscureText: widget.isObscure,
         decoration: InputDecoration(
           hintStyle: TextStyles.input,
           labelStyle: TextStyles.input,
           counterStyle: TextStyles.input,
           focusColor: colorPink,
           enabledBorder: OutlineInputBorder(
-              borderRadius: Dimens.borderRadius,
+              borderRadius: Dimens.textFieldBorderRadius,
               borderSide: BorderSide(color: colorPink)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: Dimens.borderRadius,
-              borderSide: BorderSide(color: colorPink)),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: Dimens.borderRadius,
-              borderSide: BorderSide(color: colorPink)),
+              borderRadius: Dimens.textFieldBorderRadius,
+              borderSide: BorderSide(color: colorPink, width: 3)),
           border: OutlineInputBorder(
-              borderRadius: Dimens.borderRadius,
+              borderRadius: Dimens.textFieldBorderRadius,
               borderSide: BorderSide(color: colorPink)),
           labelText: widget.label,
           hintText: widget.hintText,

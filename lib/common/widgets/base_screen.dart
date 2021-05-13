@@ -18,14 +18,23 @@ class BaseScreen extends StatelessWidget {
           primaryColor: colorPink,
           primaryColorDark: colorDarkPink,
           backgroundColor: colorDarkViolet,
+          accentColor: colorWhite,
           hintColor: colorPink,
         ),
         child: Scaffold(
           backgroundColor: colorDarkViolet,
           body: SafeArea(
-            child: Padding(
-              padding: Dimens.screenPadding,
-              child: child,
+            child: Stack(
+              children: [
+                Opacity(
+                  opacity: 0.3,
+                  child: Image.asset('assets/images/waves.png'),
+                ),
+                Padding(
+                  padding: Dimens.screenPadding,
+                  child: child,
+                ),
+              ],
             ),
           ),
         ),

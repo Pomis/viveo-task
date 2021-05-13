@@ -9,13 +9,6 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStore, Store {
-  Computed<bool>? _$isUserCheckPendingComputed;
-
-  @override
-  bool get isUserCheckPending => (_$isUserCheckPendingComputed ??=
-          Computed<bool>(() => super.isUserCheckPending,
-              name: '_LoginStore.isUserCheckPending'))
-      .value;
   Computed<bool>? _$canLoginComputed;
 
   @override
@@ -53,18 +46,18 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
-  final _$usernameCheckAtom = Atom(name: '_LoginStore.usernameCheck');
+  final _$inProgressAtom = Atom(name: '_LoginStore.inProgress');
 
   @override
-  ObservableFuture<bool> get usernameCheck {
-    _$usernameCheckAtom.reportRead();
-    return super.usernameCheck;
+  bool get inProgress {
+    _$inProgressAtom.reportRead();
+    return super.inProgress;
   }
 
   @override
-  set usernameCheck(ObservableFuture<bool> value) {
-    _$usernameCheckAtom.reportWrite(value, super.usernameCheck, () {
-      super.usernameCheck = value;
+  set inProgress(bool value) {
+    _$inProgressAtom.reportWrite(value, super.inProgress, () {
+      super.inProgress = value;
     });
   }
 
@@ -97,8 +90,7 @@ mixin _$LoginStore on _LoginStore, Store {
     return '''
 email: ${email},
 password: ${password},
-usernameCheck: ${usernameCheck},
-isUserCheckPending: ${isUserCheckPending},
+inProgress: ${inProgress},
 canLogin: ${canLogin}
     ''';
   }

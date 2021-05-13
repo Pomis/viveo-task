@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:validators2/validators.dart';
 
@@ -8,6 +9,8 @@ class LoginStore = _LoginStore with _$LoginStore;
 abstract class _LoginStore with Store {
   final FormErrorState error = FormErrorState();
 
+  late VoidCallback onLoginSuccess;
+
   @observable
   String email = '';
 
@@ -15,10 +18,7 @@ abstract class _LoginStore with Store {
   String password = '';
 
   @observable
-  ObservableFuture<bool> usernameCheck = ObservableFuture.value(true);
-
-  @computed
-  bool get isUserCheckPending => usernameCheck.status == FutureStatus.pending;
+  bool inProgress = false;
 
   @computed
   bool get canLogin => !error.hasErrors;
@@ -48,9 +48,15 @@ abstract class _LoginStore with Store {
     }
   }
 
-  void validateAll() {
+  Future<void> tryLogin() async {
     validatePassword(password);
     validateEmail(email);
+    if (canLogin) {
+      inProgress = true;
+      await Future.delayed(const Duration(seconds: 2));
+      inProgress = false;
+      onLoginSuccess();
+    }
   }
 }
 

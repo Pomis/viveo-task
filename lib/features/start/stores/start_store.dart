@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:validators2/validators.dart';
 
 part 'start_store.g.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:viveo_task/common/themes/dimens.dart';
 import 'package:viveo_task/common/widgets/edit_text.dart';
 import 'package:viveo_task/features/login/stores/login_store.dart';
 
@@ -44,6 +43,7 @@ class _LoginFormState extends State<LoginForm> {
                   onChanged: (value) => widget.store.password = value,
                   label: 'Password',
                   hintText: 'Set a password',
+                  isObscure: true,
                   errorText: widget.store.error.password,
                 );
               },

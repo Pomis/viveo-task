@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viveo_task/common/widgets/scroll_keyboard_closer.dart';
 
 class ScrollableFlex extends StatelessWidget {
   final List<Widget> children;
@@ -28,26 +29,5 @@ class ScrollableFlex extends StatelessWidget {
         ),
       );
     });
-  }
-}
-
-
-class ScrollKeyboardCloser extends StatelessWidget {
-  final Widget child;
-
-  ScrollKeyboardCloser({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return NotificationListener<ScrollNotification>(
-      onNotification: (scrollNotification) {
-        if (scrollNotification is UserScrollNotification) {
-          // close keyboard
-          FocusScope.of(context).unfocus();
-        }
-        return false;
-      },
-      child: child,
-    );
   }
 }
